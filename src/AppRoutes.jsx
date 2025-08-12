@@ -1,6 +1,7 @@
 // AppRoutes.jsx
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./Login";
+import HomePage from "./HomePage";
 
 export default function AppRoutes() {
   return (
