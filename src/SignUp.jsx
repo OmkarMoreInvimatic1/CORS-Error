@@ -1,73 +1,73 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { TextField, Button, Container, Typography, Box, Link } from '@mui/material'; // Import Link
+import { TextField, Button, Container, Typography, Box, Link } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme({
   components: {
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          color: 'black', // Set label color to black
+          color: 'black',
         },
       },
     },
     MuiInputBase: {
       styleOverrides: {
         input: {
-          color: 'black', // Set input text color to black
+          color: 'black',
         },
       },
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          color: 'white', // Set button text color to white
+          color: 'white',
         },
       },
     },
   },
   palette: {
     background: {
-      default: '#fff', // Set background color to white
+      default: '#fff',
     },
   },
 });
 
-function Login() {
+function SignUp() {
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
+      name: '',
       email: '',
       password: '',
+      confirmPassword: '',
     },
     validationSchema: Yup.object({
-      email: Yup.string().email('Invalid email address').required('Required'),
+      name: Yup.string().required('Name is required'),
+      email: Yup.string().email('Invalid email address').required('Email is required'),
       password: Yup.string()
-        .min(6, 'Must be 6 characters or more')
-        .required('Required'),
+        .min(6, 'Password must be at least 6 characters')
+        .required('Password is required'),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        .required('Confirm Password is required'),
     }),
     onSubmit: (values, { setSubmitting }) => {
-      // Simulate an API call or authentication process
+      // Simulate signup process
       setTimeout(() => {
         setSubmitting(false);
-        if (values.email === 'admin@gmail.com' && values.password === 'Admin@123') {
-          toast.success('Login successful!');
-        navigate('/homepage');
-          // You would typically redirect the user to another page here
-          console.log('Login successful!');
-        } else {
-          toast.error('Invalid credentials');
-          console.log('Login failed');
-        }
-      }, 1000); // Simulate a 1-second delay
+        toast.success('Signup successful!');
+        console.log('Signup values:', values);
+        navigate('/login'); // Redirect to login page after successful signup
+      }, 1000);
     },
   });
-
-  const navigate = useNavigate(); // Initialize useNavigate
 
   return (
     <ThemeProvider theme={theme}>
@@ -92,9 +92,22 @@ function Login() {
           }}
         >
           <Typography component="h1" variant="h5" sx={{ color: 'black', marginBottom: 2 }}>
-            Sign in
+            Sign up
           </Typography>
           <form onSubmit={formik.handleSubmit}>
+            <TextField
+              fullWidth
+              id="name"
+              name="name"
+              label="Name"
+              margin="normal"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
+              autoComplete="off"
+            />
             <TextField
               fullWidth
               id="email"
@@ -122,6 +135,20 @@ function Login() {
               helperText={formik.touched.password && formik.errors.password}
               autoComplete="off"
             />
+            <TextField
+              fullWidth
+              id="confirmPassword"
+              name="confirmPassword"
+              label="Confirm Password"
+              type="password"
+              margin="normal"
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+              helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+              autoComplete="off"
+            />
             <Button
               type="submit"
               fullWidth
@@ -129,14 +156,14 @@ function Login() {
               sx={{ mt: 3, mb: 2, backgroundColor: 'black' }}
               disabled={!formik.isValid || formik.isSubmitting}
             >
-              Sign In
+              Sign Up
             </Button>
             <Link
-              href="/signup" // Replace with your signup route
+              href="/login"
               variant="body2"
               sx={{ color: 'black' }}
             >
-              {"Don't have an account? Sign Up"}
+              {"Already have an account? Sign In"}
             </Link>
           </form>
         </Box>
@@ -146,4 +173,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;

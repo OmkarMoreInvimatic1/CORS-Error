@@ -2,6 +2,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./Login";
 import HomePage from "./HomePage";
+import SignUp from "./SignUp"; // Assuming you have a SignUp component
 
 export default function AppRoutes() {
   return (
@@ -12,6 +13,7 @@ export default function AppRoutes() {
       {/* Pages */}
       <Route path="/login" element={<Login />} />
       <Route path="/homepage" element={<HomePage />} />
+       <Route path="/signup" element={<SignUp />} />
       {/* <Route path="/home" element={<Home />} />
       <Route path="/about" element={<About />} /> */}
 
