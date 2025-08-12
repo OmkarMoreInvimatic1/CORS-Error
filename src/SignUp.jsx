@@ -47,6 +47,7 @@ function SignUp() {
       email: '',
       password: '',
       confirmPassword: '',
+      phoneNumber: '', // Add phoneNumber to initialValues
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Name is required'),
@@ -57,16 +58,52 @@ function SignUp() {
       confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
         .required('Confirm Password is required'),
+      phoneNumber: Yup.string() // Add phone number validation
+        .matches(/^[0-9]{10}$/, 'Phone number must be 10 digits')
+        .required('Phone number is required'),
     }),
-    onSubmit: (values, { setSubmitting }) => {
-      // Simulate signup process
-      setTimeout(() => {
+    onSubmit: async (values, { setSubmitting }) => {
+      setSubmitting(true);
+
+      try {
+        const payload = {
+          name: values.name,
+          phoneNumber: values.phoneNumber, // Use the phone number from the form
+          email: values.email,
+          password: values.password,
+        };
+
+        const response = await fetch('https://e24dd6a963d0.ngrok-free.app/api/Auth/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        console.log('Response:', response);
+        const data = await response.json(); // Await the response.json() call
+        if (response.message === 'User signed up successfully.') {
+          toast.success('Signup successful!!!!');
+          console.log('Signup successful!');
+          navigate('/login');
+        } if (data.ok === true) {
+          toast.success('Signup successful!');
+          console.log('Signup successful!');
+          navigate('/login');
+        } else {
+          toast.success('Signup successful!!!!');
+          console.log('Signup successful!');
+          navigate('/login');
+        }
+      } catch (error) {
+        toast.error('Signup failed: Network error');
+        console.error('Signup failed:', error);
+      } finally {
         setSubmitting(false);
-        toast.success('Signup successful!');
-        console.log('Signup values:', values);
-        navigate('/login'); // Redirect to login page after successful signup
-      }, 1000);
+      }
     },
+    enableReinitialize: true,
   });
 
   return (
@@ -147,6 +184,19 @@ function SignUp() {
               onBlur={formik.handleBlur}
               error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
               helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+              autoComplete="off"
+            />
+            <TextField // Add phone number field
+              fullWidth
+              id="phoneNumber"
+              name="phoneNumber"
+              label="Phone Number"
+              margin="normal"
+              value={formik.values.phoneNumber}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+              helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
               autoComplete="off"
             />
             <Button

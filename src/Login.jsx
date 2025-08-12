@@ -50,20 +50,39 @@ function Login() {
         .min(6, 'Must be 6 characters or more')
         .required('Required'),
     }),
-    onSubmit: (values, { setSubmitting }) => {
-      // Simulate an API call or authentication process
-      setTimeout(() => {
-        setSubmitting(false);
-        if (values.email === 'admin@gmail.com' && values.password === 'Admin@123') {
+    onSubmit: async (values, { setSubmitting }) => { // Make onSubmit async
+      setSubmitting(true); // Disable the button immediately
+
+      try {
+        const payload = {
+          email: values.email,
+          password: values.password,
+        };
+
+        const response = await fetch('http://localhost:5148/api/Auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await response.json(); // Await the response.json() call
+
+        if (response.ok) { // Check response.ok
           toast.success('Login successful!');
-        navigate('/homepage');
-          // You would typically redirect the user to another page here
           console.log('Login successful!');
+          navigate('/homepage');
         } else {
-          toast.error('Invalid credentials');
-          console.log('Login failed');
+          toast.error(`Login failed: ${data.message || 'An error occurred'}`);
+          console.error('Login failed:', data);
         }
-      }, 1000); // Simulate a 1-second delay
+      } catch (error) {
+        toast.error('Login failed: Network error');
+        console.error('Login failed:', error);
+      } finally {
+        setSubmitting(false); // Re-enable the button
+      }
     },
   });
 
