@@ -1,0 +1,53 @@
+.sidebar {
+  width: 220px; /* Slightly wider for better content spacing */
+  background-color: #2c3e50; /* Darker, professional blue-gray */
+  padding: 25px 0; /* More vertical padding, no horizontal padding here */
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 3px 0 8px rgba(0, 0, 0, 0.2); /* Stronger, more defined shadow */
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  margin-bottom: 30px;
+  text-align: center;
+  color: #ecf0f1; /* Light text for contrast */
+  font-size: 1.4rem;
+  font-weight: 600;
+  padding: 0 20px; /* Add horizontal padding to header */
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  flex-grow: 1; /* Allows menu to take available space */
+}
+
+.sidebar-menu-item {
+  margin-bottom: 5px; /* Reduced margin for tighter list */
+}
+
+.sidebar-menu-item a {
+  text-decoration: none;
+  color: #bdc3c7; /* Lighter gray for default links */
+  display: block;
+  padding: 12px 25px; /* More padding for clickable area */
+  transition: background-color 0.2s ease, color 0.2s ease; /* Smooth transitions */
+  font-size: 1rem;
+}
+
+.sidebar-menu-item a:hover {
+  background-color: #34495e; /* Slightly lighter dark blue on hover */
+  color: #ffffff; /* White text on hover */
+}
+
+/* Optional: Style for active link */
+.sidebar-menu-item a.active {
+  background-color: #3498db; /* A vibrant blue for the active item */
+  color: #ffffff;
+  font-weight: 600;
+  border-left: 5px solid #2980b9; /* Highlight with a border */
+}
