@@ -1,7 +1,7 @@
 import SideBar from "./components/SideBar";
 import FilterBar from "./components/FilterBar";
 import React from "react";
-
+import Suggestions from "./components/suggestions";
 const HomePage = () => {
   return (
     <div style={{ display: "flex" }}>
@@ -15,8 +15,8 @@ const HomePage = () => {
           <div>
                 <FilterBar />
                 <div style={{ padding: "20px" }}>
-                  <h2>Dashboard</h2>
-                  <p>Your AI travel itinerary and packing recommendations will appear here.</p>
+                <h2>Suggestions for your next trip</h2>
+                  <Suggestions />
                 </div>
               </div>
         </div>

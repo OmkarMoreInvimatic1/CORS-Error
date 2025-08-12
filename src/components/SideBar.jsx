@@ -9,7 +9,7 @@ export default function SideBar() {
       </div> */}
       <ul className="sidebar-menu">
         <li className="sidebar-menu-item">
-          <a href="/dashboard">Dashboard</a>
+          <a href="/homepage">Dashboard</a>
           <a href= "/login"> Log out</a>
         </li>
         {/* Add more menu items here as you create new pages */}

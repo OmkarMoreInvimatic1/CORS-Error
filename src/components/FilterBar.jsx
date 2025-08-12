@@ -21,8 +21,7 @@ export default function FilterBar() {
 
   return (
     <div className="filter-bar">
-      <input type="text" placeholder="Source" />
-      <input type="text" placeholder="Destination" />
+      <input type="text" placeholder="Travel Destination" />
 
       <div className="date-picker-wrapper">
         <div
